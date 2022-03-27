@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mvvm/app/app_prefs.dart';
+import 'package:mvvm/data/data_source/local_data_source.dart';
 import 'package:mvvm/data/data_source/remote_data_source.dart';
 import 'package:mvvm/data/network/dio_factory.dart';
 import 'package:mvvm/data/network/network_info.dart';
@@ -65,9 +66,13 @@ Future<void> initAppModule() async {
   instance.registerLazySingleton<RemoteDataSource>(
       () => RemoteDataSourceImplementer(instance()));
 
+  // LocalDataSource
+  instance.registerLazySingleton<LocalDataSource>(
+          () => LocalDataSourceImplementer());
+
   // Repository
   instance.registerLazySingleton<Repository>(
-      () => RepositoryImplementer(instance(), instance()));
+      () => RepositoryImplementer(instance(), instance(),instance()));
 
   /*
   We can call initLoginModule() here, but this isn't the best practice,

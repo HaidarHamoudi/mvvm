@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         child: StreamBuilder<FlowState>(
           stream: _viewModel.outputState,
           builder: (context, snapshot) {
-            return snapshot.data?.getScreenWidget(context, _getContentWidget(),
+            return snapshot.data?.getScreenWidget(context, _getContentWidgets(),
                     () {
                   _viewModel.start();
                 }) ??
@@ -48,37 +48,36 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _getContentWidget() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _getBannersCarousel(),
-        _getSection(AppStrings.services),
-        _getServices(),
-        _getSection(AppStrings.stores),
-        _getStores(),
-      ],
-    );
+  Widget _getContentWidgets() {
+    return StreamBuilder<HomeViewObject>(
+        stream: _viewModel.outputHomeData,
+        builder: (context, snapshot) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _getBanner(snapshot.data?.banners),
+              _getSection(AppStrings.services),
+              _getServicesWidget(snapshot.data?.services),
+              _getSection(AppStrings.stores),
+              _getStoresWidget(snapshot.data?.stores),
+            ],
+          );
+          ;
+        });
   }
 
   Widget _getSection(String title) {
     return Padding(
       padding: EdgeInsets.only(
-        top: AppPadding.p12,
-        left: AppPadding.p12,
-        right: AppPadding.p12,
-        bottom: AppPadding.p2,
+          top: AppPadding.p12,
+          left: AppPadding.p12,
+          right: AppPadding.p12,
+          bottom: AppPadding.p2),
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.headline3,
       ),
-      child: Text(title, style: Theme.of(context).textTheme.headline3),
     );
-  }
-
-  Widget _getBannersCarousel() {
-    return StreamBuilder<List<BannerAd>>(
-        stream: _viewModel.outputBanners,
-        builder: (context, snapshot) {
-          return _getBanner(snapshot.data);
-        });
   }
 
   Widget _getBanner(List<BannerAd>? banners) {
@@ -86,43 +85,31 @@ class _HomePageState extends State<HomePage> {
       return CarouselSlider(
           items: banners
               .map((banner) => SizedBox(
-                    width: double.infinity,
-                    child: Card(
-                      elevation: AppSize.s1_5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSize.s12),
-                        side: BorderSide(
-                          color: ColorManager.white,
-                          width: AppSize.s1_5,
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(AppSize.s12),
-                        child: Image.network(
-                          banner.image,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ))
+            width: double.infinity,
+            child: Card(
+              elevation: AppSize.s1_5,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppSize.s12),
+                  side: BorderSide(
+                      color: ColorManager.white, width: AppSize.s1_5)),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(AppSize.s12),
+                child: Image.network(
+                  banner.image,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ))
               .toList(),
           options: CarouselOptions(
-            height: AppSize.s190,
-            autoPlay: true,
-            enableInfiniteScroll: true,
-            enlargeCenterPage: true,
-          ));
+              height: AppSize.s190,
+              autoPlay: true,
+              enableInfiniteScroll: true,
+              enlargeCenterPage: true));
     } else {
       return Container();
     }
-  }
-
-  Widget _getServices() {
-    return StreamBuilder<List<Service>>(
-        stream: _viewModel.outputServices,
-        builder: (context, snapshot) {
-          return _getServicesWidget(snapshot.data);
-        });
   }
 
   Widget _getServicesWidget(List<Service>? services) {
@@ -131,45 +118,40 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.only(left: AppPadding.p12, right: AppPadding.p12),
         child: Container(
           height: AppSize.s140,
-          margin: EdgeInsets.symmetric(
-            vertical: AppMargin.m12,
-          ),
+          margin: EdgeInsets.symmetric(vertical: AppMargin.m12),
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: services
                 .map((service) => Card(
-                      elevation: AppSize.s4,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSize.s12),
-                        side: BorderSide(
-                          color: ColorManager.white,
-                          width: AppSize.s1_5,
-                        ),
+              elevation: AppSize.s4,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(AppSize.s12),
+                  side: BorderSide(
+                      color: ColorManager.white, width: AppSize.s1_5)),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(AppSize.s12),
+                    child: Image.network(
+                      service.image,
+                      fit: BoxFit.cover,
+                      width: AppSize.s120,
+                      height: AppSize.s100,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: AppPadding.p8),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        service.title,
+                        textAlign: TextAlign.center,
                       ),
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(AppSize.s12),
-                            child: Image.network(
-                              service.image,
-                              fit: BoxFit.cover,
-                              width: AppSize.s100,
-                              height: AppSize.s100,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: AppPadding.p8),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                service.title,
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ))
+                    ),
+                  )
+                ],
+              ),
+            ))
                 .toList(),
           ),
         ),
@@ -177,14 +159,6 @@ class _HomePageState extends State<HomePage> {
     } else {
       return Container();
     }
-  }
-
-  Widget _getStores() {
-    return StreamBuilder<List<Store>>(
-        stream: _viewModel.outputStores,
-        builder: (context, snapshot) {
-          return _getStoresWidget(snapshot.data);
-        });
   }
 
   Widget _getStoresWidget(List<Store>? stores) {
@@ -216,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               }),
-            ),
+            )
           ],
         ),
       );
