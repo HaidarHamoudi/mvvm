@@ -16,9 +16,11 @@ import '../data/network/app_api.dart';
 import '../data/repository/repository_impl.dart';
 import '../domain/usecase/forget_password_usecase.dart';
 import '../domain/usecase/register_usecase.dart';
+import '../domain/usecase/store_details_usecase.dart';
 import '../presentation/forget_password/forget_password_viewmodel.dart';
 import '../presentation/main/home/home_viewmodel.dart';
 import '../presentation/register/register_viewmodel.dart';
+import '../presentation/store_details/store_details_viewmodel.dart';
 
 final instance = GetIt.instance;
 
@@ -68,11 +70,11 @@ Future<void> initAppModule() async {
 
   // LocalDataSource
   instance.registerLazySingleton<LocalDataSource>(
-          () => LocalDataSourceImplementer());
+      () => LocalDataSourceImplementer());
 
   // Repository
   instance.registerLazySingleton<Repository>(
-      () => RepositoryImplementer(instance(), instance(),instance()));
+      () => RepositoryImplementer(instance(), instance(), instance()));
 
   /*
   We can call initLoginModule() here, but this isn't the best practice,
@@ -132,5 +134,14 @@ initHomeModule() {
   if (!GetIt.I.isRegistered<HomeUseCase>()) {
     instance.registerFactory<HomeUseCase>(() => HomeUseCase(instance()));
     instance.registerFactory<HomeViewModel>(() => HomeViewModel(instance()));
+  }
+}
+
+initStoreDetailsModule() {
+  if (!GetIt.I.isRegistered<StoreDetailsUseCase>()) {
+    instance.registerFactory<StoreDetailsUseCase>(
+        () => StoreDetailsUseCase(instance()));
+    instance.registerFactory<StoreDetailsViewModel>(
+        () => StoreDetailsViewModel(instance()));
   }
 }
