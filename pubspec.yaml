@@ -48,7 +48,9 @@ dependencies:
   image_picker: ^0.8.4+11
   rxdart: ^0.27.3
   carousel_slider: ^4.0.0
-
+  easy_localization: ^3.0.0
+  # Easily restart your application from scratch, losing any previous state
+  flutter_phoenix: ^1.0.0
 
 
 
@@ -94,11 +96,17 @@ flutter:
      - assets/images/solid_circle_ic.svg
      - assets/images/right_arrow_ic.svg
      - assets/images/left_arrow_ic.svg
+     - assets/images/photo_camera_ic.svg
+     - assets/images/change_lang_ic.svg
+     - assets/images/contact_us_ic.svg
+     - assets/images/invite_friends_ic.svg
+     - assets/images/settings_right_arrow_ic.svg
+     - assets/images/logout_ic.svg
      - assets/json/loading.json
      - assets/json/empty.json
      - assets/json/error.json
      - assets/json/success.json
-     - assets/images/photo_camera_ic.svg
+     - assets/translations/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

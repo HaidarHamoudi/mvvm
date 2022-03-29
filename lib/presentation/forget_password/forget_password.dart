@@ -1,14 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:mvvm/app/app_prefs.dart';
 import 'package:mvvm/presentation/common/state_renderer/state_rendere_impl.dart';
-import 'package:mvvm/presentation/login/login_viewmodel.dart';
 import 'package:mvvm/presentation/resources/assets_manager.dart';
 import 'package:mvvm/presentation/resources/color_manager.dart';
 import 'package:mvvm/presentation/resources/values_manager.dart';
 
 import '../../app/di.dart';
-import '../resources/routes_manager.dart';
 import '../resources/strings_manager.dart';
 import 'forget_password_viewmodel.dart';
 
@@ -20,9 +17,9 @@ class ForgetPasswordView extends StatefulWidget {
 }
 
 class _ForgetPasswordViewState extends State<ForgetPasswordView> {
-  ForgetPasswordViewModel _viewModel = instance<ForgetPasswordViewModel>();
+  final ForgetPasswordViewModel _viewModel = instance<ForgetPasswordViewModel>();
 
-  TextEditingController _emailTextEditingController = TextEditingController();
+  final TextEditingController _emailTextEditingController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -65,16 +62,16 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
   Widget _getContentWidget() {
     return Container(
       constraints: const BoxConstraints.expand(),
-      padding: EdgeInsets.only(top: AppPadding.p100),
+      padding: const EdgeInsets.only(top: AppPadding.p100),
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              Image(image: AssetImage(ImageAssets.splashLogo)),
-              SizedBox(height: AppSize.s28),
+              const Image(image: AssetImage(ImageAssets.splashLogo)),
+              const SizedBox(height: AppSize.s28),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                     left: AppPadding.p28, right: AppPadding.p28),
                 child: StreamBuilder<bool>(
                   stream: _viewModel.outputIsEmailValid,
@@ -83,18 +80,18 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailTextEditingController,
                       decoration: InputDecoration(
-                          hintText: AppStrings.emailHint,
-                          labelText: AppStrings.emailHint,
+                          hintText: AppStrings.emailHint.tr(),
+                          labelText: AppStrings.emailHint.tr(),
                           errorText: (snapshot.data ?? true)
                               ? null
-                              : AppStrings.invalidEmail),
+                              : AppStrings.invalidEmail.tr()),
                     );
                   },
                 ),
               ),
-              SizedBox(height: AppSize.s28),
+              const SizedBox(height: AppSize.s28),
               Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: AppPadding.p28, right: AppPadding.p28),
                   child: StreamBuilder<bool>(
                     stream: _viewModel.outputIsAllInputValid,
@@ -108,7 +105,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                                     _viewModel.forgetPassword();
                                   }
                                 : null,
-                            child: Text(AppStrings.resetPassword)),
+                            child: const Text(AppStrings.resetPassword).tr()),
                       );
                     },
                   )),

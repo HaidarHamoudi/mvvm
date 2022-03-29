@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/presentation/common/state_renderer/state_rendere_impl.dart';
 import 'package:mvvm/presentation/main/home/home_viewmodel.dart';
@@ -18,7 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomeViewModel _viewModel = instance<HomeViewModel>();
+  final HomeViewModel _viewModel = instance<HomeViewModel>();
 
   @override
   void initState() {
@@ -56,19 +57,18 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _getBanner(snapshot.data?.banners),
-              _getSection(AppStrings.services),
+              _getSection(AppStrings.services.tr()),
               _getServicesWidget(snapshot.data?.services),
-              _getSection(AppStrings.stores),
+              _getSection(AppStrings.stores.tr()),
               _getStoresWidget(snapshot.data?.stores),
             ],
           );
-          ;
         });
   }
 
   Widget _getSection(String title) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
           top: AppPadding.p12,
           left: AppPadding.p12,
           right: AppPadding.p12,
@@ -115,10 +115,10 @@ class _HomePageState extends State<HomePage> {
   Widget _getServicesWidget(List<Service>? services) {
     if (services != null) {
       return Padding(
-        padding: EdgeInsets.only(left: AppPadding.p12, right: AppPadding.p12),
+        padding: const EdgeInsets.only(left: AppPadding.p12, right: AppPadding.p12),
         child: Container(
           height: AppSize.s140,
-          margin: EdgeInsets.symmetric(vertical: AppMargin.m12),
+          margin: const EdgeInsets.symmetric(vertical: AppMargin.m12),
           child: ListView(
             scrollDirection: Axis.horizontal,
             children: services
@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: AppPadding.p8),
+                    padding: const EdgeInsets.only(top: AppPadding.p8),
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
@@ -164,7 +164,7 @@ class _HomePageState extends State<HomePage> {
   Widget _getStoresWidget(List<Store>? stores) {
     if (stores != null) {
       return Padding(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
             left: AppPadding.p12, right: AppPadding.p12, top: AppPadding.p12),
         child: Flex(
           direction: Axis.vertical,
@@ -172,7 +172,7 @@ class _HomePageState extends State<HomePage> {
             GridView.count(
               crossAxisSpacing: AppSize.s8,
               mainAxisSpacing: AppSize.s8,
-              physics: ScrollPhysics(),
+              physics: const ScrollPhysics(),
               shrinkWrap: true,
               crossAxisCount: 2,
               children: List.generate(stores.length, (index) {

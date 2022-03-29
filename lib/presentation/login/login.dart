@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import 'package:mvvm/app/app_prefs.dart';
 import 'package:mvvm/presentation/common/state_renderer/state_rendere_impl.dart';
 import 'package:mvvm/presentation/login/login_viewmodel.dart';
 import 'package:mvvm/presentation/resources/assets_manager.dart';
 import 'package:mvvm/presentation/resources/color_manager.dart';
 import 'package:mvvm/presentation/resources/values_manager.dart';
-
 import '../../app/di.dart';
 import '../resources/routes_manager.dart';
 import '../resources/strings_manager.dart';
+
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -22,11 +24,11 @@ class _LoginViewState extends State<LoginView> {
   /*
   I will retrieve the instance of LoginViewModel from the instance of GetIt.
   */
-  LoginViewModel _viewModel = instance<LoginViewModel>();
-  AppPreferences _appPreferences = instance<AppPreferences>();
+  final LoginViewModel _viewModel = instance<LoginViewModel>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
 
-  TextEditingController _userNamecontroller = TextEditingController();
-  TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _userNamecontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -38,10 +40,13 @@ class _LoginViewState extends State<LoginView> {
     _passwordcontroller
         .addListener(() => _viewModel.setPassword(_passwordcontroller.text));
     _viewModel.isUserLoggedInSuccessfullyStreamController.stream
-        .listen((isSuccessLoggedIn) {
+        .listen((token) {
       // navigate to main screen
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         _appPreferences.setIsUserLoggedIn();
+        _appPreferences.setToken(token);
+        // Re-initialize the dependency injection to update the token
+        resetAllModules();
         Navigator.of(context).pushReplacementNamed(Routes.mainRoute);
       });
     });
@@ -78,18 +83,18 @@ class _LoginViewState extends State<LoginView> {
 
   Widget _getContentWidget() {
     return Container(
-      padding: EdgeInsets.only(top: AppPadding.p100),
+      padding: const EdgeInsets.only(top: AppPadding.p100),
       child: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              Image(
+              const Image(
                 image: AssetImage(ImageAssets.splashLogo),
               ),
-              SizedBox(height: AppSize.s28),
+              const SizedBox(height: AppSize.s28),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                     left: AppPadding.p28, right: AppPadding.p28),
                 child: StreamBuilder<bool>(
                   stream: _viewModel.outputIsUserNameValid,
@@ -98,18 +103,18 @@ class _LoginViewState extends State<LoginView> {
                       keyboardType: TextInputType.emailAddress,
                       controller: _userNamecontroller,
                       decoration: InputDecoration(
-                          hintText: AppStrings.username,
-                          labelText: AppStrings.username,
+                          hintText: AppStrings.username.tr(),
+                          labelText: AppStrings.username.tr(),
                           errorText: (snapshot.data ?? true)
                               ? null
-                              : AppStrings.usernameError),
+                              : AppStrings.usernameError.tr()),
                     );
                   },
                 ),
               ),
-              SizedBox(height: AppSize.s28),
+              const SizedBox(height: AppSize.s28),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                     left: AppPadding.p28, right: AppPadding.p28),
                 child: StreamBuilder<bool>(
                   stream: _viewModel.outputIsPasswordValid,
@@ -118,18 +123,18 @@ class _LoginViewState extends State<LoginView> {
                       keyboardType: TextInputType.visiblePassword,
                       controller: _passwordcontroller,
                       decoration: InputDecoration(
-                          hintText: AppStrings.password,
-                          labelText: AppStrings.password,
+                          hintText: AppStrings.password.tr(),
+                          labelText: AppStrings.password.tr(),
                           errorText: (snapshot.data ?? true)
                               ? null
-                              : AppStrings.passwordError),
+                              : AppStrings.passwordError.tr()),
                     );
                   },
                 ),
               ),
-              SizedBox(height: AppSize.s28),
+              const SizedBox(height: AppSize.s28),
               Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                       left: AppPadding.p28, right: AppPadding.p28),
                   child: StreamBuilder<bool>(
                     stream: _viewModel.outputIsAllInputsValid,
@@ -143,12 +148,12 @@ class _LoginViewState extends State<LoginView> {
                                     _viewModel.login();
                                   }
                                 : null,
-                            child: Text(AppStrings.login)),
+                            child: const Text(AppStrings.login).tr()),
                       );
                     },
                   )),
               Padding(
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   top: AppPadding.p8,
                   left: AppPadding.p28,
                   right: AppPadding.p28,
@@ -164,7 +169,7 @@ class _LoginViewState extends State<LoginView> {
                       child: Text(
                         AppStrings.forgetPassword,
                         style: Theme.of(context).textTheme.subtitle2,
-                      ),
+                      ).tr(),
                     ),
                     TextButton(
                       onPressed: () {
@@ -174,7 +179,7 @@ class _LoginViewState extends State<LoginView> {
                       child: Text(
                         AppStrings.registerText,
                         style: Theme.of(context).textTheme.subtitle2,
-                      ),
+                      ).tr(),
                     ),
                   ],
                 ),

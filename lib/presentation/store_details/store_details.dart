@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/presentation/store_details/store_details_viewmodel.dart';
 
@@ -49,7 +50,7 @@ class _StoreDetailsState extends State<StoreDetailsView> {
     return Scaffold(
         backgroundColor: ColorManager.white,
         appBar: AppBar(
-          title: Text(AppStrings.storeDetails),
+          title: const Text(AppStrings.storeDetails).tr(),
           elevation: AppSize.s0,
           iconTheme: IconThemeData(
           //back button
@@ -59,7 +60,7 @@ class _StoreDetailsState extends State<StoreDetailsView> {
           centerTitle: true,
         ),
         body: Container(
-          constraints: BoxConstraints.expand(),
+          constraints: const BoxConstraints.expand(),
           color: ColorManager.white,
           child: SingleChildScrollView(
             child: StreamBuilder<StoreDetails>(
@@ -84,11 +85,11 @@ class _StoreDetailsState extends State<StoreDetailsView> {
             width: double.infinity,
             height: 250,
           )),
-          _getSection(AppStrings.details),
+          _getSection(AppStrings.details.tr()),
           _getInfoText(storeDetails.details),
-          _getSection(AppStrings.services),
+          _getSection(AppStrings.services.tr()),
           _getInfoText(storeDetails.services),
-          _getSection(AppStrings.about),
+          _getSection(AppStrings.about.tr()),
           _getInfoText(storeDetails.about)
         ],
       );

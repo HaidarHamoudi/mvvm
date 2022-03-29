@@ -5,7 +5,7 @@ import 'package:mvvm/domain/repository/repository.dart';
 import 'package:mvvm/domain/usecase/base_usecase.dart';
 
 class HomeUseCase extends BaseUseCase<void, HomeObject> {
-  Repository _repository;
+  final Repository _repository;
 
   HomeUseCase(this._repository);
 

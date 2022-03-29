@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:mvvm/data/responses/responses.dart';
 import '../../data/network/failure.dart';
 import '../../data/request/request.dart';
 import '../model/model.dart';

@@ -4,7 +4,7 @@ import 'package:mvvm/domain/repository/repository.dart';
 import 'package:mvvm/domain/usecase/base_usecase.dart';
 
 class ForgetPasswordUseCase implements BaseUseCase<String, String> {
-  Repository _repository;
+  final Repository _repository;
 
   ForgetPasswordUseCase(this._repository);
 

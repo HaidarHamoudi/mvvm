@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,7 +25,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
 
   final OnBoardingViewModel _viewModel = OnBoardingViewModel();
 
-  AppPreferences _appPreferences = instance<AppPreferences>();
+  final AppPreferences _appPreferences = instance<AppPreferences>();
 
   _bind() {
     _appPreferences.setOnBoardingScreenViewed();
@@ -84,7 +85,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     AppStrings.skip,
                     style: Theme.of(context).textTheme.subtitle2,
                     textAlign: TextAlign.end,
-                  ),
+                  ).tr(),
                 ),
               ),
               _getBottomSheetWidget(sliderViewObject),

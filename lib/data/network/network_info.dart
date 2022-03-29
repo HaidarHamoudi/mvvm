@@ -5,7 +5,7 @@ abstract class NetworkInfo {
 }
 
 class NetworkInfoImplementer implements NetworkInfo {
-  InternetConnectionChecker _internetConnectionChecker;
+  final InternetConnectionChecker _internetConnectionChecker;
 
   NetworkInfoImplementer(this._internetConnectionChecker);
 

@@ -9,21 +9,21 @@ import '../common/freezed_data_classes.dart';
 
 class LoginViewModel extends BaseViewModel
     with LoginViewModelInputs, LoginViewModelOutputs {
-  StreamController _userNameStreamController =
+  final StreamController _userNameStreamController =
       StreamController<String>.broadcast();
 
-  StreamController _passwordStreamController =
+  final StreamController _passwordStreamController =
       StreamController<String>.broadcast();
 
-  StreamController _isAllInputsValidstreamController =
+  final StreamController _isAllInputsValidstreamController =
       StreamController<void>.broadcast();
 
   StreamController isUserLoggedInSuccessfullyStreamController =
-      StreamController<bool>();
+      StreamController<String>();
 
   var loginObject = LoginObject("", "");
 
-  LoginUseCase _loginUseCase;
+  final LoginUseCase _loginUseCase;
 
   LoginViewModel(this._loginUseCase);
 
@@ -67,7 +67,7 @@ class LoginViewModel extends BaseViewModel
       inputState.add(ContentState());
 
       // navigate to main screen after the login
-      isUserLoggedInSuccessfullyStreamController.add(true);
+      isUserLoggedInSuccessfullyStreamController.add("ABCDEFGH");
     });
   }
 

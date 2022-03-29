@@ -82,17 +82,17 @@ extension HomeResponseMapper on HomeResponse? {
   HomeObject toDomain() {
     List<Service> mappedService =
         (this?.data?.services?.map((service) => service.toDomain()) ??
-                Iterable.empty())
+                const Iterable.empty())
             .cast<Service>()
             .toList();
     List<Store> mappedStores =
         (this?.data?.stores?.map((store) => store.toDomain()) ??
-                Iterable.empty())
+                const Iterable.empty())
             .cast<Store>()
             .toList();
     List<BannerAd> mappedBanners =
         (this?.data?.banners?.map((bannerAd) => bannerAd.toDomain()) ??
-                Iterable.empty())
+                const Iterable.empty())
             .cast<BannerAd>()
             .toList();
 

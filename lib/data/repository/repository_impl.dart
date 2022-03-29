@@ -10,9 +10,9 @@ import 'package:mvvm/domain/model/model.dart';
 import 'package:mvvm/domain/repository/repository.dart';
 
 class RepositoryImplementer extends Repository {
-  RemoteDataSource _remoteDataSource;
-  LocalDataSource _localDataSource;
-  NetworkInfo _networkInfo;
+  final RemoteDataSource _remoteDataSource;
+  final LocalDataSource _localDataSource;
+  final NetworkInfo _networkInfo;
 
   RepositoryImplementer(
       this._remoteDataSource, this._localDataSource, this._networkInfo);

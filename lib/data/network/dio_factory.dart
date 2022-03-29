@@ -11,7 +11,7 @@ const String AUTHORIZATION = "authorization";
 const String DEFAULT_LANGUAGE = "language";
 
 class DioFactory {
-  AppPreferences _appPreferences;
+  final AppPreferences _appPreferences;
 
   DioFactory(this._appPreferences);
 
@@ -19,11 +19,12 @@ class DioFactory {
     Dio dio = Dio();
     int _timeOut = 60 * 1000;
     String language = await _appPreferences.getAppLanguage();
+    String token = await _appPreferences.getToken();
 
     Map<String, String> headers = {
       CONTENT_TYPE: APPLICATION_JSON,
       ACCEPT: APPLICATION_JSON,
-      AUTHORIZATION: Constants.token,
+      AUTHORIZATION: token,
       DEFAULT_LANGUAGE: language,
     };
 

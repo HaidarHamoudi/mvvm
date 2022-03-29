@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mvvm/presentation/common/state_renderer/state_renderer.dart';
 import 'package:mvvm/presentation/resources/strings_manager.dart';
@@ -16,7 +17,7 @@ class LoadingState extends FlowState {
   String message;
 
   LoadingState({required this.stateRendererType, String? message})
-      : message = message ?? AppStrings.loading;
+      : message = message ?? AppStrings.loading.tr();
 
   @override
   String getMessage() => message;
@@ -82,7 +83,7 @@ class SuccessState extends FlowState {
 extension FlowStateExtesnion on FlowState {
   Widget getScreenWidget(BuildContext context, Widget contentScreenWidget,
       Function retryActionFunction) {
-    switch (this.runtimeType) {
+    switch (runtimeType) {
       case LoadingState:
         {
           if (getStateRendererType() == StateRendererType.POPUP_LOADING_STATE) {
@@ -133,7 +134,7 @@ extension FlowStateExtesnion on FlowState {
           dismissDialog(context);
 
           // show popup
-          showPopUp(context, StateRendererType.POPUP_SUCCESS, getMessage(),title: AppStrings.success);
+          showPopUp(context, StateRendererType.POPUP_SUCCESS, getMessage(),title: AppStrings.success.tr());
           // return content ui of the screen
           return contentScreenWidget;
         }
